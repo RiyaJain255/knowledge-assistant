@@ -1,0 +1,34 @@
+ACME Corp Employee Handbook (sample document)
+
+1. Working hours
+Core working hours are 10:00 to 16:00 local time, Monday to Friday. Outside core hours employees may
+arrange their schedule with their manager. The standard working week is 40 hours.
+
+2. Annual leave
+Full-time employees receive 24 days of paid annual leave per calendar year, in addition to public
+holidays. Up to 5 unused days can be carried over into the next year; carried-over days expire on
+31 March. Leave requests should be submitted at least two weeks in advance through the HR portal.
+
+3. Sick leave
+Employees receive 10 paid sick days per year. A medical certificate is required for absences longer
+than three consecutive days. Please notify your manager before 10:00 on the first day of absence.
+
+4. Remote work
+Employees may work remotely up to three days per week. Fully remote arrangements require written
+approval from a department head and are reviewed every six months. Remote employees receive a
+one-time home-office allowance of 500 USD.
+
+5. Expense reimbursement
+Business expenses must be submitted within 30 days with receipts attached. Meals during business
+travel are reimbursed up to 60 USD per day. Flights over 6 hours may be booked in premium economy.
+Expenses above 1,000 USD need prior approval from a director.
+
+6. Security
+All laptops use full-disk encryption. Passwords must be at least 14 characters and rotated only when
+a compromise is suspected. Report lost devices or phishing emails to security@acme.example within one
+hour of discovery.
+
+7. Parental leave
+Primary caregivers receive 20 weeks of fully paid parental leave. Secondary caregivers receive 8 weeks.
+Leave can be taken in one block or split into two blocks within the first 12 months after birth or
+adoption.

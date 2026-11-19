@@ -1,0 +1,47 @@
+# Local / all-in-one stack.
+#   Dev (run the app from VS Code):   docker compose up -d db
+#   Everything in containers:         docker compose up -d --build
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: ka-db
+    environment:
+      POSTGRES_DB: knowledge
+      POSTGRES_USER: knowledge
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-knowledge}
+    ports:
+      - "127.0.0.1:5433:5432"      # reachable from your machine only
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U knowledge -d knowledge"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  app:
+    build: .
+    container_name: ka-app
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/knowledge
+      DB_USER: knowledge
+      DB_PASSWORD: ${DB_PASSWORD:-knowledge}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-not-set}
+      OPENAI_BASE_URL: ${OPENAI_BASE_URL:-https://api.openai.com}
+      CHAT_MODEL: ${CHAT_MODEL:-gpt-4o-mini}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-text-embedding-3-small}
+      EMBEDDING_DIMENSIONS: ${EMBEDDING_DIMENSIONS:-1536}
+      JWT_SECRET: ${JWT_SECRET:-dev-only-secret-please-change-this-0123456789}
+    ports:
+      - "8080:8080"
+    volumes:
+      - uploads:/app/data/uploads
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  uploads:

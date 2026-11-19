@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Knowledge Assistant",
+      "request": "launch",
+      "mainClass": "com.example.knowledge.KnowledgeAssistantApplication",
+      "projectName": "knowledge-assistant",
+      "envFile": "${workspaceFolder}/.env",
+      "preLaunchTask": "db: up"
+    }
+  ]
+}

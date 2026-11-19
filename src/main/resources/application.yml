@@ -1,0 +1,69 @@
+server:
+  port: 8081
+  shutdown: graceful
+  forward-headers-strategy: framework   # correct scheme/host when running behind Caddy/Nginx
+
+spring:
+  application:
+    name: knowledge-assistant
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/knowledge}
+    username: ${DB_USER:knowledge}
+    password: ${DB_PASSWORD:knowledge}
+
+  servlet:
+    multipart:
+      max-file-size: 25MB
+      max-request-size: 26MB
+
+  flyway:
+    enabled: true
+
+  ai:
+    openai:
+      # Any OpenAI-compatible endpoint works (OpenAI, Azure proxy, OpenRouter, Ollama's /v1, ...).
+      api-key: ${OPENAI_API_KEY:not-set}
+      base-url: ${OPENAI_BASE_URL:https://api.openai.com}
+      chat:
+        options:
+          model: ${CHAT_MODEL:gpt-4o-mini}
+      embedding:
+        options:
+          model: ${EMBEDDING_MODEL:text-embedding-3-small}
+    vectorstore:
+      pgvector:
+        initialize-schema: true        # creates the vector_store table + HNSW index on first start
+        index-type: HNSW
+        distance-type: COSINE_DISTANCE
+        # MUST equal the output size of your embedding model (text-embedding-3-small = 1536).
+        dimensions: ${EMBEDDING_DIMENSIONS:768}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:}              # required, >= 32 characters
+    ttl: ${JWT_TTL:PT12H}               # ISO-8601 duration
+  storage:
+    dir: ${STORAGE_DIR:./data/uploads}
+  rag:
+    chunk-size: ${RAG_CHUNK_SIZE:800}                  # tokens per chunk
+    min-chunk-size-chars: ${RAG_MIN_CHUNK_CHARS:350}
+    max-chunks-per-document: ${RAG_MAX_CHUNKS:5000}
+    top-k: ${RAG_TOP_K:5}                              # excerpts sent to the LLM
+    similarity-threshold: ${RAG_SIMILARITY_THRESHOLD:0.25}
+
+logging:
+  level:
+    com.example.knowledge: INFO

@@ -1,0 +1,91 @@
+### Requests for the VS Code "REST Client" extension (humao.rest-client).
+### Click "Send Request" above each ### block, top to bottom.
+
+@host = http://localhost:8080
+
+### 1. Register (once)
+POST {{host}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "me@example.com",
+  "password": "ChangeMe-12345",
+  "displayName": "Me"
+}
+
+### 2. Login (stores the token for the requests below)
+# @name login
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "me@example.com",
+  "password": "ChangeMe-12345"
+}
+
+###
+@token = {{login.response.body.$.token}}
+
+### 3. Create a collection
+# @name createCollection
+POST {{host}}/api/collections
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "HR policies",
+  "description": "Handbook and policy documents"
+}
+
+###
+@collectionId = {{createCollection.response.body.$.id}}
+
+### 4. Upload a document (samples/company-handbook.txt)
+# @name upload
+POST {{host}}/api/collections/{{collectionId}}/documents
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=----KnowledgeBoundary
+
+------KnowledgeBoundary
+Content-Disposition: form-data; name="file"; filename="company-handbook.txt"
+Content-Type: text/plain
+
+< ./samples/company-handbook.txt
+------KnowledgeBoundary--
+
+###
+@documentId = {{upload.response.body.$.id}}
+
+### 5. Check indexing status (wait until "status": "READY")
+GET {{host}}/api/documents/{{documentId}}
+Authorization: Bearer {{token}}
+
+### 6. List documents in the collection
+GET {{host}}/api/collections/{{collectionId}}/documents
+Authorization: Bearer {{token}}
+
+### 7. Ask a question (searches only this collection)
+POST {{host}}/api/ask
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "question": "How many days of annual leave do I get, and can I carry any over?",
+  "collectionId": {{collectionId}}
+}
+
+### 8. Ask across all of your collections
+POST {{host}}/api/ask
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "question": "What is the remote work policy?"
+}
+
+### 9. Delete the document
+DELETE {{host}}/api/documents/{{documentId}}
+Authorization: Bearer {{token}}
+
+### Health check (no auth)
+GET {{host}}/actuator/health

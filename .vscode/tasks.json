@@ -1,0 +1,37 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "db: up",
+      "type": "shell",
+      "command": "docker compose up -d --wait db",
+      "problemMatcher": []
+    },
+    {
+      "label": "db: down",
+      "type": "shell",
+      "command": "docker compose down",
+      "problemMatcher": []
+    },
+    {
+      "label": "mvn: test",
+      "type": "shell",
+      "command": "mvn -B test",
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "mvn: package",
+      "type": "shell",
+      "command": "mvn -B package -DskipTests",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "docker: full stack up",
+      "type": "shell",
+      "command": "docker compose up -d --build",
+      "problemMatcher": []
+    }
+  ]
+}
