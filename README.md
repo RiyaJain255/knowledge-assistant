@@ -6,7 +6,7 @@
 lets you upload PDF, DOCX, and TXT documents, ask questions in plain
 English, and receive answers with source citations.
 
-`<br/>`{=html}
+
 
 ![Java](https://img.shields.io/badge/Java-21-orange?logo=openjdk&logoColor=white)
 ![Spring
@@ -623,7 +623,6 @@ Ideas for taking the project further:
 
 ------------------------------------------------------------------------
 
-::: {align="center"}
 ### 💡 Built to turn documents into knowledge.
 
 **Java • Spring Boot • Spring AI • Ollama • PostgreSQL • pgvector**
