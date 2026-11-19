@@ -1,4 +1,3 @@
-::: {align="center"}
 # 🧠 AI-Powered Knowledge Assistant
 
 ### Your documents. Your knowledge base. Answers grounded in your files.
